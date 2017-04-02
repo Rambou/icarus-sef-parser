@@ -1,8 +1,3 @@
-var request = require('request');
-var charsetParser = require('charset-parser');
-var iconv = require('iconv-lite');
-var jsdom = require("jsdom");
-var mongoose = require('mongoose');
 var auth = require('./auth.js');
 var config = require('config');
 
