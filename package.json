@@ -1,9 +1,21 @@
 {
   "name": "icarus-sef-parser",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "start": "nodemon app.js"
   },
+  "homepage": "https://github.com/Rambou/icarus-sef-parser",
+  "bugs": "https://github.com/Rambou/icarus-sef-parser/issues",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.9.5 <7.0.0",
+    "npm": ">=3.10.7 <4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rambou/icarus-sef-parser.git"
+  },
+  "author": "Nikolaos Bousios <nickos.bou@gmail.com> (https://www.rambou.gr)",
   "dependencies": {
     "charset-parser": "^0.2.0",
     "config": "^1.25.1",
@@ -11,7 +23,17 @@
     "mongoose": "^4.9.2",
     "request": "^2.81.0"
   },
+  "keywords": [
+    "aegean",
+    "icarus",
+    "sef",
+    "math",
+    "samos",
+    "university",
+    "parser"
+  ],
   "devDependencies": {
     "nodemon": "^1.11.0"
-  }
+  },
+  "license": "MIT"
 }
