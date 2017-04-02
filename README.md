@@ -3,6 +3,13 @@
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/Rambou/icarus-sef-parser.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D) [![GitHub stars](https://img.shields.io/github/stars/Rambou/icarus-sef-parser.svg)](https://github.com/Rambou/icarus-sef-parser/stargazers) [![GitHub forks](https://img.shields.io/github/forks/Rambou/icarus-sef-parser.svg)](https://github.com/Rambou/icarus-sef-parser/network) [![GitHub issues](https://img.shields.io/github/issues/Rambou/icarus-sef-parser.svg)](https://github.com/Rambou/icarus-sef-parser/issues)
 A simple module to parse https://icarus-icsd.aegean.gr and https://sef.math.aegean.gr websites to get students marks or send requests to office.
 
+[![NPM](https://nodei.co/npm/icarus-sef-parser.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/icarus-sef-parser/)
+
+## Install
+
+```
+npm install --save icarus-sef-parser
+```
 ## How to use
 
 Create a new object
