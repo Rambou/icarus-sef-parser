@@ -1,0 +1,17 @@
+{
+  "name": "icarus-sef-parser",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "charset-parser": "^0.2.0",
+    "config": "^1.25.1",
+    "jsdom": "^9.12.0",
+    "mongoose": "^4.9.2",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
