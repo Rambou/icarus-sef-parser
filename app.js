@@ -17,16 +17,47 @@ if (!(USERNAME && PASSWORD && MONGO_URI)) {
 }
 
 // constructor call
-var object = new auth(USERNAME, PASSWORD);
+var parser = new auth(USERNAME, PASSWORD);
 
 // execute and test module
-object.printStudent();
-console.log(object.getDepartmentName());
-object.getCookie(function (cookie) {
-    console.log(cookie)
-    object.printAnalyticGrades(cookie.document)
-    object.printSucceededGrades(cookie.document)
-    object.printExamGrades(cookie.document)
-    object.printIntercalaryExamGrades(cookie.document)
-    object.getUserDetails(cookie.document, cookie.cookie)
-})
+parser.printStudent();
+console.log(parser.getSessionInfo());
+console.log(parser.getDepartmentName());
+
+// authenticate and test the other api
+parser.authenticate(function (error, response) {
+    console.log(response);
+    console.log((response.authenticated) ? "Authenticated" : "Authentication Failed.");
+
+    parser.getUserDetails(response.document, response.cookie, function (err, data) {
+        if (err) {
+            return console.log(err.message)
+        }
+        console.log(data)
+    });
+    parser.getSucceededGrades(response.document, function (err, value) {
+        if (err) {
+            return console.log(err.message)
+        }
+        console.log(value)
+    });
+    parser.getAnalyticGrades(response.document, function (err, value) {
+        if (err) {
+            return console.log(err.message)
+        }
+        console.log(value)
+    });
+    parser.getExamGrades(response.document, function (err, value) {
+        if (err) {
+            return console.log(err.message)
+        }
+        console.log(value)
+    });
+    parser.getIntercalaryExamGrades(response.document, function (err, value) {
+        if (err) {
+            return console.log(err.message)
+        }
+        console.log(value)
+    });
+
+});
