@@ -60,4 +60,5 @@ parser.authenticate(function (error, response) {
         }
         console.log(value)
     });
+});
 ```
