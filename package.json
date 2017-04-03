@@ -1,6 +1,6 @@
 {
   "name": "icarus-sef-parser",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -34,6 +34,5 @@
   ],
   "devDependencies": {
     "nodemon": "^1.11.0"
-  },
-  "license": "MIT"
+  }
 }
