@@ -43,6 +43,7 @@ describe('Icarus Parser', function () {
 
     it('should authenticate', function (done) {
         this.timeout(10000);
+        this.retries(3);
         this.parser.authenticate(function (err, response) {
             expect(err).to.not.exist;
             expect(response).to.exist;
@@ -60,6 +61,7 @@ describe('Icarus Parser', function () {
 
     it('should not authenticate user with wrong credentials', function (done) {
         this.timeout(10000);
+        this.retries(3);
         var parser_wrong = new parser(USERNAME_ICARUS, 'wrong_password');
         parser_wrong.authenticate(function (err, response) {
             expect(err).to.not.exist;
@@ -143,6 +145,7 @@ describe('Sef Parser', function () {
 
     it('should authenticate', function (done) {
         this.timeout(10000);
+        this.retries(3);
         this.parser.authenticate(function (err, response) {
             expect(err).to.not.exist;
             expect(response).to.exist;
@@ -160,6 +163,7 @@ describe('Sef Parser', function () {
 
     it('should not authenticate user with wrong credentials', function (done) {
         this.timeout(10000);
+        this.retries(3);
         var parser_wrong = new parser(USERNAME_SEF, 'wrong_password');
         parser_wrong.authenticate(function (err, response) {
             expect(err).to.not.exist;
