@@ -2,6 +2,20 @@
 var parser = require('./auth.js');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
+var config = require('config');
+
+const USERNAME_SEF = (process.env.USERNAME_SEF) ?
+    process.env.USERNAME_SEF :
+    config.get('sef.username');
+const PASSWORD_SEF = (process.env.PASSWORD_SEF) ?
+    (process.env.PASSWORD_SEF) :
+    config.get('sef.password');
+const USERNAME_ICARUS = (process.env.USERNAME_ICARUS) ?
+    (process.env.USERNAME_ICARUS) :
+    config.get('sef.username');
+const PASSWORD_ICARUS = (process.env.PASSWORD_ICARUS) ?
+    (process.env.PASSWORD_ICARUS) :
+    config.get('sef.password');
 
 describe('Module', function () {
 
@@ -17,14 +31,14 @@ describe('Icarus Parser', function () {
     var self = this;
 
     before(function () {
-        expect(process.env.USERNAME_ICARUS).to.exist;
-        expect(process.env.PASSWORD_ICARUS).to.exist;
-        this.parser = new parser(process.env.USERNAME_ICARUS, process.env.PASSWORD_ICARUS);
+        expect(USERNAME_ICARUS).to.exist;
+        expect(PASSWORD_ICARUS).to.exist;
+        this.parser = new parser(USERNAME_ICARUS, PASSWORD_ICARUS);
     });
 
     it('should only test in the MPES department', function () {
         expect(this.parser.getDepartmentName()).equals('Μηχανικών Πληροφοριακών και Επικοινωνιακών συστημάτων');
-        expect(this.parser.getSessionInfo().username).equals(process.env.USERNAME_ICARUS);
+        expect(this.parser.getSessionInfo().username).equals(USERNAME_ICARUS);
     });
 
     it('should authenticate', function (done) {
@@ -46,7 +60,7 @@ describe('Icarus Parser', function () {
 
     it('should not authenticate user with wrong credentials', function (done) {
         this.timeout(10000);
-        var parser_wrong = new parser(process.env.USERNAME_ICARUS, 'wrong_password');
+        var parser_wrong = new parser(USERNAME_ICARUS, 'wrong_password');
         parser_wrong.authenticate(function (err, response) {
             expect(err).to.not.exist;
             expect(response).to.exist;
@@ -103,14 +117,14 @@ describe('Sef Parser', function () {
     var self = this;
 
     before(function () {
-        expect(process.env.USERNAME_SEF).to.exist;
-        expect(process.env.PASSWORD_SEF).to.exist;
-        this.parser = new parser(process.env.USERNAME_SEF, process.env.PASSWORD_SEF);
+        expect(USERNAME_SEF).to.exist;
+        expect(PASSWORD_SEF).to.exist;
+        this.parser = new parser(USERNAME_SEF, PASSWORD_SEF);
     });
 
     it('should only test in the MATH or SAXM department', function () {
         expect(this.parser.getDepartmentName()).equals('Μαθηματικό');
-        expect(this.parser.getSessionInfo().username).equals(process.env.USERNAME_SEF);
+        expect(this.parser.getSessionInfo().username).equals(USERNAME_SEF);
     });
 
     it('should authenticate', function (done) {
@@ -132,7 +146,7 @@ describe('Sef Parser', function () {
 
     it('should not authenticate user with wrong credentials', function (done) {
         this.timeout(10000);
-        var parser_wrong = new parser(process.env.USERNAME_SEF, 'wrong_password');
+        var parser_wrong = new parser(USERNAME_SEF, 'wrong_password');
         parser_wrong.authenticate(function (err, response) {
             expect(err).to.not.exist;
             expect(response).to.exist;

@@ -1,5 +1,11 @@
 {
-  "username": "YOUR_USERNAME",
-  "password": "YOUR_PASSWORD",
+  "sef": {
+    "username": "YOUR_SEF_USERNAME",
+    "password": "YOUR_SEF_PASSWORD"
+  },
+  "icarus": {
+    "username": "YOUR_ICARUS_USERNAME",
+    "password": "YOUR_ICARUS_PASSWORD"
+  },
   "mongo_uri": "YOUR_URI_TO_DATABASE"
 }

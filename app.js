@@ -3,10 +3,10 @@ var config = require('config');
 
 const USERNAME = (process.env.USERNAME) ?
     process.env.USERNAME :
-    config.get('username');
+    config.get('sef.username');
 const PASSWORD = (process.env.PASSWORD) ?
     (process.env.PASSWORD) :
-    config.get('password');
+    config.get('sef.password');
 const MONGO_URI = (process.env.MONGO_URI) ?
     (process.env.MONGO_URI) :
     config.get('mongo_uri');
