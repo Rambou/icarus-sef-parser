@@ -90,8 +90,6 @@ Authenticate.prototype.getAnalyticGrades = function (document, callback) {
                 courses.push({
                     id: ID,
                     title: Title,
-                    ects: ECTS,
-                    certificate: Certificate,
                     applyDate: ApplyDate,
                     examDate: ExamDate,
                     mark: Mark,
