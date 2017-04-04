@@ -110,6 +110,20 @@ describe('Icarus Parser', function () {
         })
     })
 
+    it('should return user details', function (done) {
+        expect(self.document).to.exist;
+        this.parser.getUserDetails(self.document, self.cookie, function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.exist;
+
+            expect(res).to.have.property('id');
+            expect(res).to.have.property('name');
+            expect(res).to.have.property('status');
+
+            done();
+        })
+    });
+
 });
 
 describe('Sef Parser', function () {
@@ -160,12 +174,55 @@ describe('Sef Parser', function () {
     it('should return analytic grades', function (done) {
         expect(self.document).to.exist;
         this.parser.getAnalyticGrades(self.document, function (err, response) {
-            expect(err).to.not.exist;
+            expect(err).not.to.exist;
             expect(response).to.exist;
+
+            expect(response).to.have.length.above(2);
+            expect(response[0]).to.have.deep.property('id');
+            expect(response[0]).to.have.deep.property('title');
+            expect(response[0]).to.have.deep.property('applyDate');
+            expect(response[0]).to.have.deep.property('examDate');
+            expect(response[0]).to.have.deep.property('mark');
+            expect(response[0]).to.have.deep.property('status');
 
             done();
         })
     })
 
-});
+    it('should return succeeded grades', function (done) {
+        expect(self.document).to.exist;
+        this.parser.getSucceededGrades(self.document, function (err, response) {
+            expect(err).to.not.exist;
+            expect(response).to.exist;
 
+            expect(response).to.have.length.above(2);
+            expect(response[0]).to.have.deep.property('id');
+            expect(response[0]).to.have.deep.property('title');
+            expect(response[0]).to.have.deep.property('ects');
+            expect(response[0]).to.have.deep.property('certificate');
+            expect(response[0]).to.have.deep.property('applyDate');
+            expect(response[0]).to.have.deep.property('examDate');
+            expect(response[0]).to.have.deep.property('mark');
+            expect(response[0]).to.have.deep.property('status');
+
+            done();
+        })
+    });
+
+    it('should return user details', function (done) {
+        expect(self.document).to.exist;
+        this.parser.getUserDetails(self.document, self.cookie, function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.exist;
+
+            expect(res).to.have.property('id');
+            expect(res).to.have.property('name');
+            expect(res).to.have.property('father');
+            expect(res).to.have.property('address');
+            expect(res).to.have.property('phone');
+
+            done();
+        })
+    });
+
+});
