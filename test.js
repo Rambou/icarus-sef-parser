@@ -12,10 +12,10 @@ const PASSWORD_SEF = (process.env.PASSWORD_SEF) ?
     config.get('sef.password');
 const USERNAME_ICARUS = (process.env.USERNAME_ICARUS) ?
     (process.env.USERNAME_ICARUS) :
-    config.get('sef.username');
+    config.get('icarus.username');
 const PASSWORD_ICARUS = (process.env.PASSWORD_ICARUS) ?
     (process.env.PASSWORD_ICARUS) :
-    config.get('sef.password');
+    config.get('icarus.password');
 
 describe('Module', function () {
 

@@ -4,4 +4,5 @@
 out
 gen
 
+coverage
 node_modules
