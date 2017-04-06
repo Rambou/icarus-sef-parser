@@ -3,10 +3,10 @@ var config = require('config');
 
 const USERNAME = (process.env.USERNAME) ?
     process.env.USERNAME :
-    config.get('sef.username');
+    config.get('icarus.username');
 const PASSWORD = (process.env.PASSWORD) ?
     (process.env.PASSWORD) :
-    config.get('sef.password');
+    config.get('icarus.password');
 const MONGO_URI = (process.env.MONGO_URI) ?
     (process.env.MONGO_URI) :
     config.get('mongo_uri');
@@ -59,5 +59,30 @@ parser.authenticate(function (error, response) {
         }
         console.log(value)
     });
+    parser.getCurriculumToDeclare(response.cookie, function (err, value) {
+        if (err) {
+            console.log('error:', err.message); // Print the error if one occurred
+        }
 
+        var formData = [];
+        for (var i in value) {
+            formData.push(value[i].id);
+        }
+
+        // call postCurriculumToDeclare(formData,  (err, value) {....}) to post them
+    });
+    parser.postCurriculumToDeclare(['321-2450',
+        '331-2205',
+        '321-4120',
+        '311-0116',
+        '311-0238',
+        '311-0327',
+        '311-0437',
+        '331-2708'], response.cookie, function (err, value) {
+        if (err) {
+            console.log('error:', err.message); // Print the error if one occurred
+        }
+
+        console.log(value);
+    });
 });

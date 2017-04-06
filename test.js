@@ -1,8 +1,10 @@
 // get the application server module
 var parser = require('./auth.js');
-var assert = require('chai').assert;
-var expect = require('chai').expect;
+var chai = require("chai");
+var assert = chai.assert;
+var expect = chai.expect;
 var config = require('config');
+chai.use(require('chai-things'));
 
 const USERNAME_SEF = (process.env.USERNAME_SEF) ?
     process.env.USERNAME_SEF :
@@ -26,7 +28,7 @@ describe('Module', function () {
     })
 });
 
-describe('Icarus Parser', function () {
+describe.only('Icarus Parser', function () {
 
     var self = this;
 
@@ -125,6 +127,22 @@ describe('Icarus Parser', function () {
             done();
         })
     });
+
+    it('should get all Curriculum to declare', function (done) {
+        this.timeout(4000)
+        this.parser.getCurriculumToDeclare(self.cookie, function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.exist;
+
+            expect(res).all.have.property('id');
+            expect(res).all.have.property('title');
+            expect(res).all.have.property('type');
+            expect(res).all.have.property('ects');
+            expect(res).all.contain.a.thing.with.property('cycle');
+
+            done();
+        });
+    })
 
 });
 

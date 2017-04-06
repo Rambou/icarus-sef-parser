@@ -361,5 +361,111 @@ Authenticate.prototype.getSessionInfo = function () {
     return {username: this.username, department: this.department}
 };
 
+Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
+
+    request({
+        url: this.department.url + '/student_dilosi.php', method: 'GET',
+        headers: {'Cookie': cookie},
+        encoding: 'binary',
+        body: 'buffer'
+    }, function (error, response, body) {
+        if (error) {
+            console.log('error:', error); // Print the error if one occurred
+            return callback(error, null);
+        }
+
+        if (self.department !== DEPART.MPES) {
+            return callback(new Error('getCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null)
+        }
+
+        // parse charset
+        var charset = charsetParser(body);
+
+        // decode binary with charset
+        var decodedBody = iconv.decode(body, charset);
+
+        //remove comments correct & symbol (encoding issues)
+        decodedBody = decodedBody.replace(/&/g, 'και');
+
+        // parse html
+        var document = jsdom.jsdom(decodedBody);
+
+        var courses = [];
+
+        document.querySelectorAll('table tr').forEach(function (tr) {
+
+            var td = tr.querySelectorAll('td');
+
+            // check if something is undefined and continue to next iteration
+            if (td[2] == null || td[3] == null || td[4] == null || td[5] == null || td[6] == null)
+                return;
+
+            // parse data
+            var ID = td[2].innerHTML;
+            var Title = td[3].innerHTML;
+            var Cycle;
+            switch (parseInt(td[4].innerHTML.trim())) {
+                case 1:
+                    Cycle = 'Ασφάλεια Πληροφοριακών και Επικοινωνιακών Συστημάτων και Ιδιωτικότητα';
+                    break;
+                case 2:
+                    Cycle = 'Πληροφοριακά Συστήματα και Επιχειρηματικότητα';
+                    break;
+                case 3:
+                    Cycle = 'Τεχνολογίες Υπολογιστών και Τηλεπικοινωνιών';
+                    break;
+                case 4:
+                    Cycle = 'Επικοινωνιακά Συστήματα και Δίκτυα';
+                    break;
+                case 5:
+                    Cycle = 'Διαχείριση Πληροφορίας και Ευφυή Συστήματα';
+                    break;
+                case 6:
+                    Cycle = 'Θεμελιώσεις της Επιστήμης των Υπολογιστών';
+                    break;
+                default:
+                    break;
+            }
+            var Type = td[5].innerHTML;
+            var ECTS = td[6].innerHTML;
+
+            courses.push(JSON.parse('{ "id": "' + ID + '", "' +
+                'title": "' + Title + '", "' +
+                ((Cycle) ? 'cycle": "' + Cycle + '", "' : "") +
+                'type": "' + Type + '", "' +
+                'ects": "' + ECTS + '"}'));
+        });
+
+        return callback(null, courses)
+    })
+};
+
+Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, callback) {
+    var formData = {};
+    formData["count_lessons_etous"] = "1";
+    formData["continue"] = "1";
+    for (var i in courses) {
+        formData["new_lesson_ids[" + i + "]"] = courses[i];
+    }
+
+    request({
+        url: this.department.url + '/student_dilosi.php',
+        formData: formData,
+        method: 'POST',
+        headers: {'Cookie': cookie}
+    }, function (error, response) {
+        if (error) {
+            console.log('error:', error); // Print the error if one occurred
+            return callback(error, null);
+        }
+
+        if (self.department !== DEPART.MPES) {
+            return callback(new Error('postCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null)
+        }
+
+        return callback(null, response)
+    });
+};
+
 // export the class
 module.exports = Authenticate;
