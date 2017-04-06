@@ -28,7 +28,7 @@ describe('Module', function () {
     })
 });
 
-describe.only('Icarus Parser', function () {
+describe('Icarus Parser', function () {
 
     var self = this;
 
