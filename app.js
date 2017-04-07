@@ -85,4 +85,23 @@ parser.authenticate(function (error, response) {
 
         console.log(value);
     });
+    parser.postRequestToDepartment({
+        id: 'test',
+        surname: 'test',
+        name: 'test',
+        father: 'test',
+        semester: 'test',
+        address: 'test',
+        phone: 'test',
+        method: 'test',
+        sent_address: 'test',
+        other: 'test',
+        requests: ['Βεβαίωση Σπουδών', 'Βεβαίωση Διαγραφής']
+    }, response.cookie, function (err, value) {
+        if (err) {
+            console.log('error:', err.message); // Print the error if one occurred
+        }
+
+        console.log(value);
+    })
 });

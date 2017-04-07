@@ -366,8 +366,7 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
     request({
         url: this.department.url + '/student_dilosi.php', method: 'GET',
         headers: {'Cookie': cookie},
-        encoding: 'binary',
-        body: 'buffer'
+        encoding: 'binary'
     }, function (error, response, body) {
         if (error) {
             console.log('error:', error); // Print the error if one occurred
@@ -442,29 +441,140 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
 
 Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, callback) {
     var formData = {};
-    formData["count_lessons_etous"] = "1";
-    formData["continue"] = "1";
-    for (var i in courses) {
-        formData["new_lesson_ids[" + i + "]"] = courses[i];
+
+    if (this.department == DEPART.MPES) {
+        formData["count_lessons_etous"] = "1";
+        formData["continue"] = "1";
+        for (var i in courses) {
+            formData["new_lesson_ids[" + i + "]"] = courses[i];
+        }
+
+        request({
+            url: this.department.url + '/student_dilosi.php',
+            formData: formData,
+            method: 'POST',
+            headers: {'Cookie': cookie},
+            encoding: 'binary'
+        }, function (error, response, body) {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                return callback(error, null);
+            }
+
+            if (self.department !== DEPART.MPES) {
+                return callback(new Error('postCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null)
+            }
+
+            // parse charset
+            var charset = charsetParser(body);
+
+            // decode binary with charset
+            var decodedBody = iconv.decode(body, charset);
+
+            // parse html
+            var document = jsdom.jsdom(decodedBody);
+
+            return callback(null, decodedBody)
+        });
     }
 
-    request({
-        url: this.department.url + '/student_dilosi.php',
-        formData: formData,
-        method: 'POST',
-        headers: {'Cookie': cookie}
-    }, function (error, response) {
-        if (error) {
-            console.log('error:', error); // Print the error if one occurred
-            return callback(error, null);
+};
+
+Authenticate.prototype.postRequestToDepartment = function (data, cookie, callback) {
+    var formData = {};
+
+    if (this.department == DEPART.MPES) {
+
+        // check data
+        if (data.id == null || data.surname == null ||
+            data.name == null || data.father == null ||
+            data.semester == null || data.address == null ||
+            data.phone == null || data.method == null ||
+            data.sent_address == null || data.requests == null)
+            return callback(new Error("JSON data is in wrong format."), null);
+
+        // prepare request
+        formData["aitisi_student_id"] = data.id;
+        formData["aitisi_surname"] = data.surname;
+        formData["aitisi_name"] = data.name;
+        formData["aitisi_father"] = data.father;
+        formData["aitisi_semester"] = data.semester;
+        formData["aitisi_address"] = data.address;
+        formData["aitisi_phone"] = data.phone;
+        formData["aitisi_send_method"] = data.method;
+        formData["aitisi_send_address"] = data.sent_address;
+        // initialize first so order may not change in JSON
+        for (var i = 0; i < 11; i++) {
+            formData["prints_no[" + i + "]"] = '0';
         }
 
-        if (self.department !== DEPART.MPES) {
-            return callback(new Error('postCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null)
+        for (var i in data.requests) {
+            switch (data.requests[i]) {
+                case 'Βεβαίωση Σπουδών':
+                    formData["prints_no[0]"] = 1;
+                    break;
+                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
+                    formData["prints_no[1]"] = 1;
+                    break;
+                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, με Βαθμό Πτυχίου':
+                    formData["prints_no[2]"] = 1;
+                    break;
+                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, χωρίς Βαθμό Πτυχίου':
+                    formData["prints_no[3]"] = 1;
+                    break;
+                case 'Βεβαίωση για την στρατολογία':
+                    formData["prints_no[4]"] = 1;
+                    break;
+                case 'Βεβαίωση Διαγραφής':
+                    formData["prints_no[5]"] = 1;
+                    break;
+                case 'Επικυρωμένο Αντίγραφο Πτυχίου':
+                    formData["prints_no[6]"] = 1;
+                    break;
+                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου':
+                    formData["prints_no[7]"] = 1;
+                    break;
+                case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
+                    formData["prints_no[8]"] = 1;
+                    break;
+                case 'Πιστοποιητικό στεγαστικού επιδόματος':
+                    formData["prints_no[9]"] = 1;
+                    break;
+                case 'Αλλο':
+                    formData["prints_no[10]"] = 1;
+                    break;
+                default:
+                    break;
+            }
         }
+        formData["aitisi_allo"] = data.other;
+        formData["send"] = 'send';
 
-        return callback(null, response)
-    });
+        console.log(formData)
+        request({
+            url: this.department.url + '/student_aitisi.php',
+            formData: formData,
+            method: 'POST',
+            headers: {'Cookie': cookie},
+            encoding: 'binary'
+        }, function (error, response, body) {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                return callback(error, null);
+            }
+
+            // parse charset
+            var charset = charsetParser(body);
+
+            // decode binary with charset
+            var decodedBody = iconv.decode(body, charset);
+
+            // parse html
+            var document = jsdom.jsdom(decodedBody);
+
+            return callback(null, decodedBody)
+        });
+    }
 };
 
 // export the class

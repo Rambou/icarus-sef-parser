@@ -60,5 +60,50 @@ parser.authenticate(function (error, response) {
         }
         console.log(value)
     });
+    parser.getCurriculumToDeclare(response.cookie, function (err, value) {
+            if (err) {
+                console.log('error:', err.message); // Print the error if one occurred
+            }
+    
+            var formData = [];
+            for (var i in value) {
+                formData.push(value[i].id);
+            }
+    
+            // call postCurriculumToDeclare(formData,  (err, value) {....}) to post them
+        });
+    parser.postCurriculumToDeclare(['321-2450',
+        '331-2205',
+        '321-4120',
+        '311-0116',
+        '311-0238',
+        '311-0327',
+        '311-0437',
+        '331-2708'], response.cookie, function (err, value) {
+        if (err) {
+            console.log('error:', err.message); // Print the error if one occurred
+        }
+
+        console.log(value);
+    });
+    parser.postRequestToDepartment({
+        id: 'test',
+        surname: 'test',
+        name: 'test',
+        father: 'test',
+        semester: 'test',
+        address: 'test',
+        phone: 'test',
+        method: 'test',
+        sent_address: 'test',
+        other: 'test',
+        requests: ['Βεβαίωση Σπουδών', 'Βεβαίωση Διαγραφής']
+    }, response.cookie, function (err, value) {
+        if (err) {
+            console.log('error:', err.message); // Print the error if one occurred
+        }
+
+        console.log(value);
+    })
 });
 ```
