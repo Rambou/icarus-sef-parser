@@ -550,10 +550,87 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
         formData["aitisi_allo"] = data.other;
         formData["send"] = 'send';
 
-        console.log(formData)
         request({
             url: this.department.url + '/student_aitisi.php',
             formData: formData,
+            method: 'POST',
+            headers: {'Cookie': cookie},
+            encoding: 'binary'
+        }, function (error, response, body) {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                return callback(error, null);
+            }
+
+            // parse charset
+            var charset = charsetParser(body);
+
+            // decode binary with charset
+            var decodedBody = iconv.decode(body, charset);
+
+            // parse html
+            var document = jsdom.jsdom(decodedBody);
+
+            return callback(null, decodedBody)
+        });
+    } else {
+        // check data
+        if (data.requests == null || data.address == null ||
+            data.address2 == null || data.am == null || data.emergency == null
+            || data.father == null || data.fname == null || data.other == null
+            || data.otherTxt == null || data.sname == null)
+            return callback(new Error("JSON data is in wrong format."), null);
+
+        // prepare request
+        formData = {
+            am: data.id,
+            sname: data.surname,
+            fname: data.name,
+            father: data.father,
+            address: data.address,
+            emergency: data.phone,
+            address2: data.semester,
+            other: data.method,
+            otherTxt: data.sent_address,
+            sendMail: "sendMail"
+        };
+
+        //TODO: fix the numbers of papers
+        for (var i in data.requests) {
+            switch (data.requests[i]) {
+                case 'Βεβαίωση Σπουδών':
+                    formData.Analytiki = 1;
+                    break;
+                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
+                    formData.Vevaiosi = 1;
+                    break;
+                case 'Βεβαίωση για την στρατολογία':
+                    formData.VevaiosiArmy = 1;
+                    break;
+                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου χωρίς βαθμό πτυχίου':
+                    formData.VevaiosiDegree = 1;
+                    break;
+                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου με βαθμό πτυχίου (*)':
+                    formData.VevaiosiDegree_1 = 1;
+                    break;
+                case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
+                    formData.VevaiosiPraktiki = 1;
+                    break;
+                case 'Βεβαίωση με τα υπολειπόμενα μαθήματα για απόκτηση πτυχίου':
+                    formData.VevaiosiRemainingLessons = 1;
+                    break;
+                case 'Αλλο':
+                    formData.other = 1;
+                    otherTxt: "" //TODO: fix the othertxt in JSON data
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        request({
+            url: this.department.url + '/request.php',
+            form: formData,
             method: 'POST',
             headers: {'Cookie': cookie},
             encoding: 'binary'

@@ -96,7 +96,7 @@ parser.authenticate(function (error, response) {
         method: 'test',
         sent_address: 'test',
         other: 'test',
-        requests: ['Βεβαίωση Σπουδών', 'Βεβαίωση Διαγραφής']
+        requests: ['Βεβαίωση Σπουδών', 'Βεβαίωση Διαγραφής'] //TODO: change to {name: '...', number: '2'}
     }, response.cookie, function (err, value) {
         if (err) {
             console.log('error:', err.message); // Print the error if one occurred
