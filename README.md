@@ -107,3 +107,5 @@ parser.authenticate(function (error, response) {
     })
 });
 ```
+## Coding Activity
+[![wakatime](https://wakatime.com/share/@rambou/ca298f4e-3d1a-4d87-a4b1-ae7c62599429.svg)](https://wakatime.com/@rambou/projects/jqaggxtoch)
