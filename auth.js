@@ -12,10 +12,11 @@ var DEPART = {
     MPES: {
         url: 'https://icarus-icsd.aegean.gr',
         main_url: 'student_main.php',
+        request_url: 'student_aitisi.php',
         name: "Μηχανικών Πληροφοριακών και Επικοινωνιακών συστημάτων"
     },
-    MATH: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', name: "Μαθηματικό"},
-    SAXM: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', name: "Στατιστική"},
+    MATH: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', request_url: 'request.php', name: "Μαθηματικό"},
+    SAXM: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', request_url: 'request.php', name: "Στατιστική"},
 };
 var self;
 
@@ -549,30 +550,6 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
             }
         }
         formData["send"] = 'send';
-
-        request({
-            url: this.department.url + '/student_aitisi.php',
-            formData: formData,
-            method: 'POST',
-            headers: {'Cookie': cookie},
-            encoding: 'binary'
-        }, function (error, response, body) {
-            if (error) {
-                console.log('error:', error); // Print the error if one occurred
-                return callback(error, null);
-            }
-
-            // parse charset
-            var charset = charsetParser(body);
-
-            // decode binary with charset
-            var decodedBody = iconv.decode(body, charset);
-
-            // parse html
-            var document = jsdom.jsdom(decodedBody);
-
-            return callback(null, decodedBody)
-        });
     } else {
         // check data
         if (data.requests == null || data.address == null ||
@@ -626,31 +603,34 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
                     break;
             }
         }
-
-        request({
-            url: this.department.url + '/request.php',
-            form: formData,
-            method: 'POST',
-            headers: {'Cookie': cookie},
-            encoding: 'binary'
-        }, function (error, response, body) {
-            if (error) {
-                console.log('error:', error); // Print the error if one occurred
-                return callback(error, null);
-            }
-
-            // parse charset
-            var charset = charsetParser(body);
-
-            // decode binary with charset
-            var decodedBody = iconv.decode(body, charset);
-
-            // parse html
-            var document = jsdom.jsdom(decodedBody);
-
-            return callback(null, decodedBody)
-        });
     }
+
+    // build the request
+    var option = {};
+    option.url = this.department.url + this.department.request_url;
+    (this.department == DEPART.MPES) ? option.formData = formData : option.form = formData;
+    option.method = 'POST';
+    option.headers = {'Cookie': cookie};
+    option.encoding = 'binary';
+
+    request(option, function (error, response, body) {
+        if (error) {
+            console.log('error:', error); // Print the error if one occurred
+            return callback(error, null);
+        }
+
+        // parse charset
+        var charset = charsetParser(body);
+
+        // decode binary with charset
+        var decodedBody = iconv.decode(body, charset);
+
+        // parse html
+        var document = jsdom.jsdom(decodedBody);
+
+        return callback(null, decodedBody)
+    });
+
 };
 
 // export the class
