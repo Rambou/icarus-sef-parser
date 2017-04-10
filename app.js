@@ -92,11 +92,17 @@ parser.authenticate(function (error, response) {
         father: 'test',
         semester: 'test',
         address: 'test',
+        address2: 'test',
         phone: 'test',
+        emergency: 'test',
         method: 'test',
         sent_address: 'test',
         other: 'test',
-        requests: ['Βεβαίωση Σπουδών', 'Βεβαίωση Διαγραφής'] //TODO: change to {name: '...', number: '2'}
+        requests: [
+            {name: 'Βεβαίωση Σπουδών', amount: '1'},
+            {name: 'Βεβαίωση Διαγραφής', amount: '3'},
+            {name: 'Αλλο', amount: '9', what: 'κάτι άλλο'}
+        ]
     }, response.cookie, function (err, value) {
         if (err) {
             console.log('error:', err.message); // Print the error if one occurred

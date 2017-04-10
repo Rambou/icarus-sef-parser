@@ -509,45 +509,45 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
         }
 
         for (var i in data.requests) {
-            switch (data.requests[i]) {
+            switch (data.requests[i].name) {
                 case 'Βεβαίωση Σπουδών':
-                    formData["prints_no[0]"] = 1;
+                    formData["prints_no[0]"] = data.requests[i].amount;
                     break;
                 case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
-                    formData["prints_no[1]"] = 1;
+                    formData["prints_no[1]"] = data.requests[i].amount;
                     break;
                 case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, με Βαθμό Πτυχίου':
-                    formData["prints_no[2]"] = 1;
+                    formData["prints_no[2]"] = data.requests[i].amount;
                     break;
                 case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, χωρίς Βαθμό Πτυχίου':
-                    formData["prints_no[3]"] = 1;
+                    formData["prints_no[3]"] = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση για την στρατολογία':
-                    formData["prints_no[4]"] = 1;
+                    formData["prints_no[4]"] = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση Διαγραφής':
-                    formData["prints_no[5]"] = 1;
+                    formData["prints_no[5]"] = data.requests[i].amount;
                     break;
                 case 'Επικυρωμένο Αντίγραφο Πτυχίου':
-                    formData["prints_no[6]"] = 1;
+                    formData["prints_no[6]"] = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου':
-                    formData["prints_no[7]"] = 1;
+                    formData["prints_no[7]"] = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
-                    formData["prints_no[8]"] = 1;
+                    formData["prints_no[8]"] = data.requests[i].amount;
                     break;
                 case 'Πιστοποιητικό στεγαστικού επιδόματος':
-                    formData["prints_no[9]"] = 1;
+                    formData["prints_no[9]"] = data.requests[i].amount;
                     break;
                 case 'Αλλο':
-                    formData["prints_no[10]"] = 1;
+                    formData["prints_no[10]"] = data.requests[i].amount;
+                    formData["aitisi_allo"] = data.requests[i].what;
                     break;
                 default:
                     break;
             }
         }
-        formData["aitisi_allo"] = data.other;
         formData["send"] = 'send';
 
         request({
@@ -576,9 +576,9 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
     } else {
         // check data
         if (data.requests == null || data.address == null ||
-            data.address2 == null || data.am == null || data.emergency == null
-            || data.father == null || data.fname == null || data.other == null
-            || data.otherTxt == null || data.sname == null)
+            data.address2 == null || data.id == null || data.emergency == null
+            || data.father == null || data.name == null || data.other == null
+            || data.surname == null)
             return callback(new Error("JSON data is in wrong format."), null);
 
         // prepare request
@@ -589,39 +589,38 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
             father: data.father,
             address: data.address,
             emergency: data.phone,
-            address2: data.semester,
+            address2: data.address2,
             other: data.method,
-            otherTxt: data.sent_address,
+            otherTxt: '',
             sendMail: "sendMail"
         };
 
-        //TODO: fix the numbers of papers
         for (var i in data.requests) {
-            switch (data.requests[i]) {
+            switch (data.requests[i].name) {
                 case 'Βεβαίωση Σπουδών':
-                    formData.Analytiki = 1;
+                    formData.Analytiki = data.requests[i].amount;
                     break;
                 case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
-                    formData.Vevaiosi = 1;
+                    formData.Vevaiosi = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση για την στρατολογία':
-                    formData.VevaiosiArmy = 1;
+                    formData.VevaiosiArmy = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου χωρίς βαθμό πτυχίου':
-                    formData.VevaiosiDegree = 1;
+                    formData.VevaiosiDegree = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου με βαθμό πτυχίου (*)':
-                    formData.VevaiosiDegree_1 = 1;
+                    formData.VevaiosiDegree_1 = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
-                    formData.VevaiosiPraktiki = 1;
+                    formData.VevaiosiPraktiki = data.requests[i].amount;
                     break;
                 case 'Βεβαίωση με τα υπολειπόμενα μαθήματα για απόκτηση πτυχίου':
-                    formData.VevaiosiRemainingLessons = 1;
+                    formData.VevaiosiRemainingLessons = data.requests[i].amount;
                     break;
                 case 'Αλλο':
-                    formData.other = 1;
-                    otherTxt: "" //TODO: fix the othertxt in JSON data
+                    formData.other = data.requests[i].amount;
+                    formData.otherTxt = data.requests[i].what;
                     break;
                 default:
                     break;
