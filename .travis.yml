@@ -6,3 +6,6 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - cat ./coverage/lcov.info | coveralls
+addons:
+  srcclr:
+    debug: true
