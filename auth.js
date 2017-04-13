@@ -246,7 +246,7 @@ Authenticate.prototype.getUserDetails = function (document, cookie, callback) {
             //console.log('AM: ' + student_id + ', Name: ' + student_name + ", Κατάσταση: " + status);
             return callback(null, {id: student_id, name: student_name, status: status});
         } catch (err) {
-            var err = new Error('Probably unauthenticated or icarus page changed.');
+            err.message = 'Probably unauthenticated or icarus page changed.';
             return callback(err)
         }
     } else {
@@ -265,8 +265,7 @@ Authenticate.prototype.getUserDetails = function (document, cookie, callback) {
 
             try {
                 var student_id = doc.querySelector('input[name="am"]').value;
-                var student_name = doc.querySelector('input[name="fname"]').value;
-                +doc.querySelector('input[name="sname"]').value;
+                var student_name = doc.querySelector('input[name="fname"]').value + " " + doc.querySelector('input[name="sname"]').value;
                 var fathername = doc.querySelector('input[name="father"]').value;
                 var address = doc.querySelector('input[name="address"]').value;
                 var phone = doc.querySelector('input[name="emergency"]').value;
@@ -280,7 +279,7 @@ Authenticate.prototype.getUserDetails = function (document, cookie, callback) {
                     phone: phone
                 });
             } catch (err) {
-                var err = new Error('Probably unauthenticated or sef page changed.');
+                err.message = 'Probably unauthenticated or icarus page changed.';
                 return callback(err)
             }
         });
@@ -404,7 +403,7 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
             var ID = td[2].innerHTML;
             var Title = td[3].innerHTML;
             var Cycle;
-            switch (parseInt(td[4].innerHTML.trim())) {
+            switch (parseInt(td[4].innerHTML.trim(), 10)) {
                 case 1:
                     Cycle = 'Ασφάλεια Πληροφοριακών και Επικοινωνιακών Συστημάτων και Ιδιωτικότητα';
                     break;
