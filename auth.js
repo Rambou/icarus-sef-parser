@@ -446,7 +446,9 @@ Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, call
         formData.count_lessons_etous = "1";
         formData.continue = "1";
         for (var i in courses) {
-            formData["new_lesson_ids[" + i + "]"] = courses[i];
+            if (courses.hasOwnProperty(i)) {
+                formData["new_lesson_ids[" + i + "]"] = courses[i];
+            }
         }
 
         request({
@@ -509,43 +511,45 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
         }
 
         for (i in data.requests) {
-            switch (data.requests[i].name) {
-                case 'Βεβαίωση Σπουδών':
-                    formData["prints_no[0]"] = data.requests[i].amount;
-                    break;
-                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
-                    formData["prints_no[1]"] = data.requests[i].amount;
-                    break;
-                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, με Βαθμό Πτυχίου':
-                    formData["prints_no[2]"] = data.requests[i].amount;
-                    break;
-                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, χωρίς Βαθμό Πτυχίου':
-                    formData["prints_no[3]"] = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση για την στρατολογία':
-                    formData["prints_no[4]"] = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση Διαγραφής':
-                    formData["prints_no[5]"] = data.requests[i].amount;
-                    break;
-                case 'Επικυρωμένο Αντίγραφο Πτυχίου':
-                    formData["prints_no[6]"] = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου':
-                    formData["prints_no[7]"] = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
-                    formData["prints_no[8]"] = data.requests[i].amount;
-                    break;
-                case 'Πιστοποιητικό στεγαστικού επιδόματος':
-                    formData["prints_no[9]"] = data.requests[i].amount;
-                    break;
-                case 'Αλλο':
-                    formData["prints_no[10]"] = data.requests[i].amount;
-                    formData.aitisi_allo = data.requests[i].what;
-                    break;
-                default:
-                    break;
+            if (data.requests.hasOwnProperty(i)) {
+                switch (data.requests[i].name) {
+                    case 'Βεβαίωση Σπουδών':
+                        formData["prints_no[0]"] = data.requests[i].amount;
+                        break;
+                    case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
+                        formData["prints_no[1]"] = data.requests[i].amount;
+                        break;
+                    case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, με Βαθμό Πτυχίου':
+                        formData["prints_no[2]"] = data.requests[i].amount;
+                        break;
+                    case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας Πτυχιούχου, χωρίς Βαθμό Πτυχίου':
+                        formData["prints_no[3]"] = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση για την στρατολογία':
+                        formData["prints_no[4]"] = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση Διαγραφής':
+                        formData["prints_no[5]"] = data.requests[i].amount;
+                        break;
+                    case 'Επικυρωμένο Αντίγραφο Πτυχίου':
+                        formData["prints_no[6]"] = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου':
+                        formData["prints_no[7]"] = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
+                        formData["prints_no[8]"] = data.requests[i].amount;
+                        break;
+                    case 'Πιστοποιητικό στεγαστικού επιδόματος':
+                        formData["prints_no[9]"] = data.requests[i].amount;
+                        break;
+                    case 'Αλλο':
+                        formData["prints_no[10]"] = data.requests[i].amount;
+                        formData.aitisi_allo = data.requests[i].what;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         formData["send"] = 'send';
@@ -572,34 +576,36 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
         };
 
         for (var i in data.requests) {
-            switch (data.requests[i].name) {
-                case 'Βεβαίωση Σπουδών':
-                    formData.Analytiki = data.requests[i].amount;
-                    break;
-                case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
-                    formData.Vevaiosi = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση για την στρατολογία':
-                    formData.VevaiosiArmy = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου χωρίς βαθμό πτυχίου':
-                    formData.VevaiosiDegree = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου με βαθμό πτυχίου (*)':
-                    formData.VevaiosiDegree_1 = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
-                    formData.VevaiosiPraktiki = data.requests[i].amount;
-                    break;
-                case 'Βεβαίωση με τα υπολειπόμενα μαθήματα για απόκτηση πτυχίου':
-                    formData.VevaiosiRemainingLessons = data.requests[i].amount;
-                    break;
-                case 'Αλλο':
-                    formData.other = data.requests[i].amount;
-                    formData.otherTxt = data.requests[i].what;
-                    break;
-                default:
-                    break;
+            if (data.requests.hasOwnProperty(i)) {
+                switch (data.requests[i].name) {
+                    case 'Βεβαίωση Σπουδών':
+                        formData.Analytiki = data.requests[i].amount;
+                        break;
+                    case 'Πιστοποιητικό Αναλυτικής Βαθμολογίας':
+                        formData.Vevaiosi = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση για την στρατολογία':
+                        formData.VevaiosiArmy = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου χωρίς βαθμό πτυχίου':
+                        formData.VevaiosiDegree = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση ότι πληρώ προϋποθέσεις απόκτησης πτυχίου με βαθμό πτυχίου (*)':
+                        formData.VevaiosiDegree_1 = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση ότι συμμετείχα στο μάθημα : Πρακτική Ασκηση':
+                        formData.VevaiosiPraktiki = data.requests[i].amount;
+                        break;
+                    case 'Βεβαίωση με τα υπολειπόμενα μαθήματα για απόκτηση πτυχίου':
+                        formData.VevaiosiRemainingLessons = data.requests[i].amount;
+                        break;
+                    case 'Αλλο':
+                        formData.other = data.requests[i].amount;
+                        formData.otherTxt = data.requests[i].what;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

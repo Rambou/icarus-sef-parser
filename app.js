@@ -7,11 +7,8 @@ const USERNAME = (process.env.USERNAME) ?
 const PASSWORD = (process.env.PASSWORD) ?
     (process.env.PASSWORD) :
     config.get('icarus.password');
-const MONGO_URI = (process.env.MONGO_URI) ?
-    (process.env.MONGO_URI) :
-    config.get('mongo_uri');
 
-if (!(USERNAME && PASSWORD && MONGO_URI)) {
+if (!(USERNAME && PASSWORD)) {
     throw new Error("Missing config values!");
 }
 
@@ -65,7 +62,9 @@ parser.authenticate(function (error, response) {
 
         var formData = [];
         for (var i in value) {
-            formData.push(value[i].id);
+            if (value.hasOwnProperty(i)) {
+                formData.push(value[i].id);
+            }
         }
 
         console.log(value)

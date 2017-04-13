@@ -6,6 +6,5 @@
   "icarus": {
     "username": "YOUR_ICARUS_USERNAME",
     "password": "YOUR_ICARUS_PASSWORD"
-  },
-  "mongo_uri": "YOUR_URI_TO_DATABASE"
+  }
 }
