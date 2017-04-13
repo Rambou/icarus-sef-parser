@@ -69,6 +69,8 @@ parser.authenticate(function (error, response) {
             formData.push(value[i].id);
         }
 
+        console.log(value)
+
         // call postCurriculumToDeclare(formData,  (err, value) {....}) to post them
     });
     parser.postCurriculumToDeclare(['321-2450',
