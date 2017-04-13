@@ -12,8 +12,7 @@ const MONGO_URI = (process.env.MONGO_URI) ?
     config.get('mongo_uri');
 
 if (!(USERNAME && PASSWORD && MONGO_URI)) {
-    console.error("Missing config values");
-    process.exit(1);
+    throw new Error("Missing config values!");
 }
 
 // constructor call

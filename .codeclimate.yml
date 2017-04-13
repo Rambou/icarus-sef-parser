@@ -20,3 +20,4 @@ ratings:
   - "**.module"
 exclude_paths:
 - config/
+- test.js

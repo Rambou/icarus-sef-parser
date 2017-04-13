@@ -16,7 +16,7 @@ var DEPART = {
         name: "Μηχανικών Πληροφοριακών και Επικοινωνιακών συστημάτων"
     },
     MATH: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', request_url: 'request.php', name: "Μαθηματικό"},
-    SAXM: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', request_url: 'request.php', name: "Στατιστική"},
+    SAXM: {url: 'https://sef.samos.aegean.gr/', main_url: 'main.php', request_url: 'request.php', name: "Στατιστική"}
 };
 var self;
 
@@ -396,43 +396,43 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
             var td = tr.querySelectorAll('td');
 
             // check if something is undefined and continue to next iteration
-            if (td[2] == null || td[3] == null || td[4] == null || td[5] == null || td[6] == null)
-                return;
+            if (td[2] || td[3] || td[4] || td[5] || td[6]) {
 
-            // parse data
-            var ID = td[2].innerHTML;
-            var Title = td[3].innerHTML;
-            var Cycle;
-            switch (parseInt(td[4].innerHTML.trim(), 10)) {
-                case 1:
-                    Cycle = 'Ασφάλεια Πληροφοριακών και Επικοινωνιακών Συστημάτων και Ιδιωτικότητα';
-                    break;
-                case 2:
-                    Cycle = 'Πληροφοριακά Συστήματα και Επιχειρηματικότητα';
-                    break;
-                case 3:
-                    Cycle = 'Τεχνολογίες Υπολογιστών και Τηλεπικοινωνιών';
-                    break;
-                case 4:
-                    Cycle = 'Επικοινωνιακά Συστήματα και Δίκτυα';
-                    break;
-                case 5:
-                    Cycle = 'Διαχείριση Πληροφορίας και Ευφυή Συστήματα';
-                    break;
-                case 6:
-                    Cycle = 'Θεμελιώσεις της Επιστήμης των Υπολογιστών';
-                    break;
-                default:
-                    break;
+                // parse data
+                var ID = td[2].innerHTML;
+                var Title = td[3].innerHTML;
+                var Cycle;
+                switch (parseInt(td[4].innerHTML.trim(), 10)) {
+                    case 1:
+                        Cycle = 'Ασφάλεια Πληροφοριακών και Επικοινωνιακών Συστημάτων και Ιδιωτικότητα';
+                        break;
+                    case 2:
+                        Cycle = 'Πληροφοριακά Συστήματα και Επιχειρηματικότητα';
+                        break;
+                    case 3:
+                        Cycle = 'Τεχνολογίες Υπολογιστών και Τηλεπικοινωνιών';
+                        break;
+                    case 4:
+                        Cycle = 'Επικοινωνιακά Συστήματα και Δίκτυα';
+                        break;
+                    case 5:
+                        Cycle = 'Διαχείριση Πληροφορίας και Ευφυή Συστήματα';
+                        break;
+                    case 6:
+                        Cycle = 'Θεμελιώσεις της Επιστήμης των Υπολογιστών';
+                        break;
+                    default:
+                        break;
+                }
+                var Type = td[5].innerHTML;
+                var ECTS = td[6].innerHTML;
+
+                courses.push(JSON.parse('{ "id": "' + ID + '", "' +
+                    'title": "' + Title + '", "' +
+                    ((Cycle) ? 'cycle": "' + Cycle + '", "' : "") +
+                    'type": "' + Type + '", "' +
+                    'ects": "' + ECTS + '"}'));
             }
-            var Type = td[5].innerHTML;
-            var ECTS = td[6].innerHTML;
-
-            courses.push(JSON.parse('{ "id": "' + ID + '", "' +
-                'title": "' + Title + '", "' +
-                ((Cycle) ? 'cycle": "' + Cycle + '", "' : "") +
-                'type": "' + Type + '", "' +
-                'ects": "' + ECTS + '"}'));
         });
 
         return callback(null, courses)
