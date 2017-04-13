@@ -11,3 +11,4 @@ coverage
 
 config
 app.js
+.codeclimate.yml
