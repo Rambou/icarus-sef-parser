@@ -23,7 +23,7 @@ describe('Module', function () {
 
     it('should throw error on wrong username', function () {
         assert.throw(function () {
-            new parser('worng_username', '')
+            var p = new parser('worng_username', '')
         }, Error);
     })
 });

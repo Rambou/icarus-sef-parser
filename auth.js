@@ -55,7 +55,7 @@ Authenticate.prototype.getAnalyticGrades = function (document, callback) {
     var courses = [];
 
     try {
-        if (this.department == DEPART.MPES) {
+        if (this.department === DEPART.MPES) {
             document.querySelectorAll('#analytic_grades tbody tr').forEach(function (tr) {
                 var td = tr.querySelectorAll('td');
                 var ID = td[1].innerHTML;
@@ -109,7 +109,7 @@ Authenticate.prototype.getSucceededGrades = function (document, callback) {
     var courses = [];
 
     try {
-        if (this.department == DEPART.MPES) {
+        if (this.department === DEPART.MPES) {
             document.querySelectorAll('#succeeded_grades tbody tr').forEach(function (tr) {
                 var td = tr.querySelectorAll('td');
                 var ID = td[1].innerHTML;
@@ -172,7 +172,7 @@ Authenticate.prototype.getExamGrades = function (document, callback) {
     var courses = [];
 
     try {
-        if (this.department == DEPART.MPES) {
+        if (this.department === DEPART.MPES) {
             document.querySelectorAll('#exetastiki_grades tbody tr').forEach(function (tr) {
 
                 var td = tr.querySelectorAll('td');
@@ -206,7 +206,7 @@ Authenticate.prototype.getIntercalaryExamGrades = function (document, callback) 
     var courses = [];
 
     try {
-        if (this.department == DEPART.MPES) {
+        if (this.department === DEPART.MPES) {
             document.querySelectorAll('#exetastiki_grades_emvolimi tbody tr').forEach(function (tr) {
 
                 var td = tr.querySelectorAll('td');
@@ -237,7 +237,7 @@ Authenticate.prototype.getIntercalaryExamGrades = function (document, callback) 
 };
 
 Authenticate.prototype.getUserDetails = function (document, cookie, callback) {
-    if (this.department == DEPART.MPES) {
+    if (this.department === DEPART.MPES) {
         try {
             var student_name = document.querySelector('#header_login u').innerHTML;
             var student_id = document.querySelector('#tabs-1 h2').innerHTML.replace('Μητρώο φοιτητή: ', '').replace(/ -.*/i, '').trim();
@@ -290,7 +290,7 @@ Authenticate.prototype.getUserDetails = function (document, cookie, callback) {
 Authenticate.prototype.getCookie = function (callback) {
     request({
         url: this.department.url + '/authentication.php',
-        form: JSON.parse('{ "username": "' + this.username + '", "' + ((this.department == DEPART.MPES) ? "pwd" : "password") + '": "' + this.password + '" }'),
+        form: JSON.parse('{ "username": "' + this.username + '", "' + ((this.department === DEPART.MPES) ? "pwd" : "password") + '": "' + this.password + '" }'),
         method: 'POST'
     }, function (error, response) {
         if (error) {
@@ -340,7 +340,7 @@ Authenticate.prototype.authenticate = function (callback) {
             var status;
 
             // check which department are we looking for
-            if (self.department == DEPART.MPES) {
+            if (self.department === DEPART.MPES) {
                 var student_name = document.querySelector('#header_login u').innerHTML;
 
                 // check if student name exists, that indicates if user is loggedin.
@@ -355,11 +355,11 @@ Authenticate.prototype.authenticate = function (callback) {
             return callback(null, {authenticated: status, document: document, cookie: cookie});
         });
 
-    })
+    });
 };
 
 Authenticate.prototype.getSessionInfo = function () {
-    return {username: this.username, department: this.department}
+    return {username: this.username, department: this.department};
 };
 
 Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
@@ -397,7 +397,7 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
             var td = tr.querySelectorAll('td');
 
             // check if something is undefined and continue to next iteration
-            if (td[2] == null || td[3] == null || td[4] == null || td[5] == null || td[6] == null)
+            if (td[2] === null || td[3] === null || td[4] === null || td[5] === null || td[6] === null)
                 return;
 
             // parse data
@@ -443,9 +443,9 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
 Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, callback) {
     var formData = {};
 
-    if (this.department == DEPART.MPES) {
-        formData["count_lessons_etous"] = "1";
-        formData["continue"] = "1";
+    if (this.department === DEPART.MPES) {
+        formData.count_lessons_etous = "1";
+        formData.continue = "1";
         for (var i in courses) {
             formData["new_lesson_ids[" + i + "]"] = courses[i];
         }
@@ -463,7 +463,7 @@ Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, call
             }
 
             if (self.department !== DEPART.MPES) {
-                return callback(new Error('postCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null)
+                return callback(new Error('postCurriculumToDeclare() Only works with ' + DEPART.MPES.name), null);
             }
 
             // parse charset
@@ -475,7 +475,7 @@ Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, call
             // parse html
             var document = jsdom.jsdom(decodedBody);
 
-            return callback(null, decodedBody)
+            return callback(null, decodedBody);
         });
     }
 
@@ -484,14 +484,14 @@ Authenticate.prototype.postCurriculumToDeclare = function (courses, cookie, call
 Authenticate.prototype.postRequestToDepartment = function (data, cookie, callback) {
     var formData = {};
 
-    if (this.department == DEPART.MPES) {
+    if (this.department === DEPART.MPES) {
 
         // check data
-        if (data.id == null || data.surname == null ||
-            data.name == null || data.father == null ||
-            data.semester == null || data.address == null ||
-            data.phone == null || data.method == null ||
-            data.sent_address == null || data.requests == null)
+        if (data.id === null || data.surname === null ||
+            data.name === null || data.father === null ||
+            data.semester === null || data.address === null ||
+            data.phone === null || data.method === null ||
+            data.sent_address === null || data.requests === null)
             return callback(new Error("JSON data is in wrong format."), null);
 
         // prepare request
@@ -509,7 +509,7 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
             formData["prints_no[" + i + "]"] = '0';
         }
 
-        for (var i in data.requests) {
+        for (i in data.requests) {
             switch (data.requests[i].name) {
                 case 'Βεβαίωση Σπουδών':
                     formData["prints_no[0]"] = data.requests[i].amount;
@@ -543,7 +543,7 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
                     break;
                 case 'Αλλο':
                     formData["prints_no[10]"] = data.requests[i].amount;
-                    formData["aitisi_allo"] = data.requests[i].what;
+                    formData.aitisi_allo = data.requests[i].what;
                     break;
                 default:
                     break;
@@ -552,10 +552,10 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
         formData["send"] = 'send';
     } else {
         // check data
-        if (data.requests == null || data.address == null ||
-            data.address2 == null || data.id == null || data.emergency == null
-            || data.father == null || data.name == null || data.other == null
-            || data.surname == null)
+        if (data.requests === null || data.address === null ||
+            data.address2 === null || data.id === null || data.emergency === null ||
+            data.father === null || data.name === null || data.other === null ||
+            data.surname === null)
             return callback(new Error("JSON data is in wrong format."), null);
 
         // prepare request
@@ -608,7 +608,7 @@ Authenticate.prototype.postRequestToDepartment = function (data, cookie, callbac
     // build the request
     var option = {};
     option.url = this.department.url + this.department.request_url;
-    (this.department == DEPART.MPES) ? option.formData = formData : option.form = formData;
+    (this.department === DEPART.MPES) ? option.formData = formData : option.form = formData;
     option.method = 'POST';
     option.headers = {'Cookie': cookie};
     option.encoding = 'binary';
