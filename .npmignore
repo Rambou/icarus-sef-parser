@@ -9,6 +9,15 @@ out
 gen
 coverage
 
+# Ingored according to NPM Developers guide
+.*.swp
+._*
+.DS_Store
+.git
+.npmrc
+npm-debug.log
+
+# project ignored
 config
-app.js
-.codeclimate.yml
+example.js
+.*

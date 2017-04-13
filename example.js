@@ -1,4 +1,4 @@
-var auth = require('./auth.js');
+var auth = require('./lib/index.js');
 var config = require('config');
 
 const USERNAME = (process.env.USERNAME) ?

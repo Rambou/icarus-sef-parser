@@ -1,5 +1,5 @@
 // get the application server module
-var parser = require('./auth.js');
+var parser = require('./../lib/index.js');
 var chai = require("chai");
 var assert = chai.assert;
 var expect = chai.expect;
