@@ -1,7 +1,7 @@
 {
   "name": "icarus-sef-parser",
   "main": "auth.js",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "scripts": {
     "start": "nodemon app.js",
     "test": "mocha",
