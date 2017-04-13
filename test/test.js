@@ -19,7 +19,7 @@ const PASSWORD_ICARUS = (process.env.PASSWORD_ICARUS) ?
     (process.env.PASSWORD_ICARUS) :
     config.get('icarus.password');
 
-if (!(USERNAME_SEF && PASSWORD_SEF && USERNAME_ICARUS && PASSWORD_ICARUS)) {
+if (!(USERNAME_SEF || PASSWORD_SEF || USERNAME_ICARUS || PASSWORD_ICARUS)) {
     throw new Error("Missing config values!");
 }
 
