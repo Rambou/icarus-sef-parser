@@ -397,7 +397,7 @@ Authenticate.prototype.getCurriculumToDeclare = function (cookie, callback) {
             var td = tr.querySelectorAll('td');
 
             // check if something is undefined and continue to next iteration
-            if (td[2] === null || td[3] === null || td[4] === null || td[5] === null || td[6] === null)
+            if (td[2] == null || td[3] == null || td[4] == null || td[5] == null || td[6] == null)
                 return;
 
             // parse data
