@@ -1,11 +1,24 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
 node_js:
-  - "6"
+  - '7'
+  - '6'
+  - '4'
+before_script:
+  - npm prune
 script:
   - npm run cover
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - cat ./coverage/lcov.info | coveralls
+  - npm run semantic-release
 addons:
   srcclr:
     debug: true
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

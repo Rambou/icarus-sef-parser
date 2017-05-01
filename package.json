@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon example.js",
     "test": "mocha",
-    "cover": "istanbul cover _mocha"
+    "cover": "istanbul cover _mocha",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "homepage": "https://github.com/Rambou/icarus-sef-parser",
   "bugs": "https://github.com/Rambou/icarus-sef-parser/issues",
@@ -41,6 +42,7 @@
     "coveralls": "^2.13.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "semantic-release": "^6.3.2"
   }
 }
