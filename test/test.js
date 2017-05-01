@@ -132,7 +132,7 @@ describe('Icarus Parser', function () {
         })
     });
 
-    it('should get all Curriculum to declare', function (done) {
+    it.skip('should get all Curriculum to declare', function (done) {
         this.timeout(4000)
         this.parser.getCurriculumToDeclare(self.cookie, function (err, res) {
             expect(err).to.be.null;
@@ -146,6 +146,17 @@ describe('Icarus Parser', function () {
 
             done();
         });
+    })
+
+    it('should return document', function (done) {
+        this.timeout(4000)
+        this.parser.getDocument(self.cookie, function (err, document) {
+            expect(err).to.be.null;
+            expect(document).to.exist;
+            expect(document).not.to.be.null;
+
+            done();
+        })
     })
 
 });
