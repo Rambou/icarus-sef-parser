@@ -1,7 +1,7 @@
 {
   "name": "icarus-sef-parser",
   "main": "lib/index.js",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "scripts": {
     "start": "nodemon example.js",
     "test": "mocha",
