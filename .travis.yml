@@ -5,15 +5,16 @@ cache:
 notifications:
   email: false
 node_js:
+  - '8'
   - '7'
   - '6'
 before_script:
   - npm prune
-script:
-  - npm run cover
+#script:
+#  - npm run cover
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-#  - cat ./coverage/lcov.info | coveralls
+  - cat ./coverage/lcov.info | coveralls
   - npm run semantic-release
 addons:
   srcclr:
