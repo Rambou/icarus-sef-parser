@@ -19,13 +19,13 @@
     "type": "git",
     "url": "https://github.com/Rambou/icarus-sef-parser.git"
   },
-  "author": "Nikolaos Bousios <nickos.bou@gmail.com> (https://www.rambou.gr)",
+  "author": "Nikolaos Bousios <nikolaos.bousios@rambou.gr> (https://www.rambou.gr)",
   "dependencies": {
     "charset-parser": "^0.2.0",
-    "config": "^1.25.1",
-    "iconv-lite": "^0.4.16",
+    "config": "^1.28.1",
+    "iconv-lite": "^0.4.19",
     "jsdom": "^10.1.0",
-    "request": "^2.81.0"
+    "request": "^2.83.0"
   },
   "keywords": [
     "aegean",
@@ -37,12 +37,12 @@
     "parser"
   ],
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "chai-things": "^0.2.0",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.3.0",
+    "mocha": "^4.0.1",
     "nodemon": "^1.11.0",
-    "semantic-release": "^6.3.2"
+    "semantic-release": "^8.2.0"
   }
 }
