@@ -6,7 +6,9 @@
     "start": "nodemon example.js",
     "test": "mocha",
     "cover": "istanbul cover _mocha",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "homepage": "https://github.com/Rambou/icarus-sef-parser",
   "bugs": "https://github.com/Rambou/icarus-sef-parser/issues",
@@ -25,7 +27,8 @@
     "config": "^1.28.1",
     "iconv-lite": "^0.4.19",
     "jsdom": "^10.1.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "snyk": "^1.189.0"
   },
   "keywords": [
     "aegean",
@@ -44,5 +47,6 @@
     "mocha": "^4.0.1",
     "nodemon": "^1.11.0",
     "semantic-release": "^8.2.0"
-  }
+  },
+  "snyk": true
 }
