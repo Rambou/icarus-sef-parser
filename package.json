@@ -24,7 +24,7 @@
   "author": "Nikolaos Bousios <nikolaos.bousios@rambou.gr> (https://www.rambou.gr)",
   "dependencies": {
     "charset-parser": "^0.2.0",
-    "config": "^1.28.1",
+    "config": "^3.3.1",
     "iconv-lite": "^0.4.19",
     "jsdom": "^10.1.0",
     "request": "^2.83.0",
