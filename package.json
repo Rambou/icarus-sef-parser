@@ -26,7 +26,7 @@
     "charset-parser": "^0.2.0",
     "config": "^1.28.1",
     "iconv-lite": "^0.4.19",
-    "jsdom": "^10.1.0",
+    "jsdom": "^16.5.0",
     "request": "^2.83.0",
     "snyk": "^1.316.1"
   },
